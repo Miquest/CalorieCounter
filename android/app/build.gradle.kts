@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.caloriecounter"
+    namespace = "com.miquest.caloriecounter"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
