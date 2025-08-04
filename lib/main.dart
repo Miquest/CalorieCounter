@@ -1,30 +1,36 @@
+import 'package:caloriecounter/baseScaffold.dart';
 import 'package:flutter/material.dart';
-import 'baseApplication.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:caloriecounter/generated/l10n.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
-  runApp(const CalorieCounter());
+  runApp(const MyApp());
 }
 
-class CalorieCounter extends StatelessWidget {
-  const CalorieCounter({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calorie Counter',
+      themeMode: ThemeMode.dark,
+      localizationsDelegates: [
+        S.delegate
+      ],
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textTheme: GoogleFonts.outfitTextTheme(),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        textTheme: GoogleFonts.outfitTextTheme().apply(bodyColor: Colors.white),
       ),
-      home: const BaseApplication(),
+      home: BaseScaffold(),
     );
   }
 }
-

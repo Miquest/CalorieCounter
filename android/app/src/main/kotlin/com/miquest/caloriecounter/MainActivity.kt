@@ -1,4 +1,4 @@
-package com.example.caloriecounter
+package com.miquest.caloriecounter
 
 import io.flutter.embedding.android.FlutterActivity
 
