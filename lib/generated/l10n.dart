@@ -99,6 +99,196 @@ class S {
       args: [],
     );
   }
+
+  /// `Reset app`
+  String get resetApp {
+    return Intl.message(
+      'Reset app',
+      name: 'resetApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History`
+  String get history {
+    return Intl.message(
+      'History',
+      name: 'history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Encrypt data`
+  String get encryptData {
+    return Intl.message(
+      'Encrypt data',
+      name: 'encryptData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can encrypt your data with a local key`
+  String get encryptDataSubtitle {
+    return Intl.message(
+      'You can encrypt your data with a local key',
+      name: 'encryptDataSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegetarian mode`
+  String get vegetarianMode {
+    return Intl.message(
+      'Vegetarian mode',
+      name: 'vegetarianMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegan mode`
+  String get veganMode {
+    return Intl.message(
+      'Vegan mode',
+      name: 'veganMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export data`
+  String get exportData {
+    return Intl.message(
+      'Export data',
+      name: 'exportData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export you data as a backup or for another device`
+  String get exportDataSubtitle {
+    return Intl.message(
+      'Export you data as a backup or for another device',
+      name: 'exportDataSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Licenses`
+  String get licenses {
+    return Intl.message(
+      'Licenses',
+      name: 'licenses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custom`
+  String get custom {
+    return Intl.message(
+      'Custom',
+      name: 'custom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snacks`
+  String get snacks {
+    return Intl.message(
+      'Snacks',
+      name: 'snacks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add an entry for the breakfast`
+  String get addBreakfastSubtitle {
+    return Intl.message(
+      'Add an entry for the breakfast',
+      name: 'addBreakfastSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add an entry for lunch`
+  String get addLunchSubtitle {
+    return Intl.message(
+      'Add an entry for lunch',
+      name: 'addLunchSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add an entry for your dinner`
+  String get addDinnerSubtitle {
+    return Intl.message(
+      'Add an entry for your dinner',
+      name: 'addDinnerSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a snack to your logbook`
+  String get addSnackSubtitle {
+    return Intl.message(
+      'Add a snack to your logbook',
+      name: 'addSnackSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add an entry to a customized meal`
+  String get addCustomSubtitle {
+    return Intl.message(
+      'Add an entry to a customized meal',
+      name: 'addCustomSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose amount`
+  String get chooseAmount {
+    return Intl.message(
+      'Choose amount',
+      name: 'chooseAmount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

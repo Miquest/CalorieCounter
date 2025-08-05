@@ -1,5 +1,9 @@
 import 'package:caloriecounter/home/home.dart';
+import 'package:caloriecounter/history/history.dart';
+import 'package:caloriecounter/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:caloriecounter/generated/l10n.dart';
+import 'package:caloriecounter/add_entry/addEntry.dart';
 
 class BaseScaffold extends StatefulWidget {
   const BaseScaffold({super.key});
@@ -11,14 +15,18 @@ class BaseScaffold extends StatefulWidget {
 class _BaseScaffoldState extends State<BaseScaffold> {
   int _pageIndex = 0;
 
-  final List<Widget> _pages = [Home(), Placeholder(), Placeholder()];
+  final List<Widget> _pages = [Home(), History(), Settings()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_pageIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => AddEntry())
+          );
+        },
         child: Icon(Icons.fastfood),
       ),
       bottomNavigationBar: NavigationBar(
@@ -29,9 +37,9 @@ class _BaseScaffoldState extends State<BaseScaffold> {
           });
         },
         destinations: [
-          NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-          NavigationDestination(icon: Icon(Icons.timelapse), label: "History"),
-          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
+          NavigationDestination(icon: Icon(Icons.home), label: S.of(context).home),
+          NavigationDestination(icon: Icon(Icons.timelapse), label: S.of(context).history),
+          NavigationDestination(icon: Icon(Icons.settings), label: S.of(context).settings),
         ],
       ),
     );

@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:caloriecounter/generated/l10n.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  await dotenv.load(fileName: ".env");
+
+  await Hive.openBox("settings");
 
   runApp(const MyApp());
 }
@@ -20,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calorie Counter',
       themeMode: ThemeMode.dark,
+      supportedLocales: [Locale("en")],
       localizationsDelegates: [
         S.delegate
       ],

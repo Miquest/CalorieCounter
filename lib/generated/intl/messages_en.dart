@@ -22,10 +22,37 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addBreakfastSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Add an entry for the breakfast"),
+        "addCustomSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Add an entry to a customized meal"),
+        "addDinnerSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Add an entry for your dinner"),
+        "addLunchSubtitle":
+            MessageLookupByLibrary.simpleMessage("Add an entry for lunch"),
+        "addSnackSubtitle":
+            MessageLookupByLibrary.simpleMessage("Add a snack to your logbook"),
         "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "chooseAmount": MessageLookupByLibrary.simpleMessage("Choose amount"),
+        "custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
+        "encryptData": MessageLookupByLibrary.simpleMessage("Encrypt data"),
+        "encryptDataSubtitle": MessageLookupByLibrary.simpleMessage(
+            "You can encrypt your data with a local key"),
+        "exportData": MessageLookupByLibrary.simpleMessage("Export data"),
+        "exportDataSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Export you data as a backup or for another device"),
+        "history": MessageLookupByLibrary.simpleMessage("History"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "licenses": MessageLookupByLibrary.simpleMessage("Licenses"),
         "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
+        "resetApp": MessageLookupByLibrary.simpleMessage("Reset app"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
+        "veganMode": MessageLookupByLibrary.simpleMessage("Vegan mode"),
+        "vegetarianMode":
+            MessageLookupByLibrary.simpleMessage("Vegetarian mode"),
         "welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
             "Welcome to your calorie diary!")
       };
