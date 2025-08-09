@@ -230,46 +230,6 @@ class S {
     );
   }
 
-  /// `Add an entry for the breakfast`
-  String get addBreakfastSubtitle {
-    return Intl.message(
-      'Add an entry for the breakfast',
-      name: 'addBreakfastSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add an entry for lunch`
-  String get addLunchSubtitle {
-    return Intl.message(
-      'Add an entry for lunch',
-      name: 'addLunchSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add an entry for your dinner`
-  String get addDinnerSubtitle {
-    return Intl.message(
-      'Add an entry for your dinner',
-      name: 'addDinnerSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add a snack to your logbook`
-  String get addSnackSubtitle {
-    return Intl.message(
-      'Add a snack to your logbook',
-      name: 'addSnackSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Add an entry to a customized meal`
   String get addCustomSubtitle {
     return Intl.message(
@@ -285,6 +245,26 @@ class S {
     return Intl.message(
       'Choose amount',
       name: 'chooseAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search product...`
+  String get searchProduct {
+    return Intl.message(
+      'Search product...',
+      name: 'searchProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
       desc: '',
       args: [],
     );

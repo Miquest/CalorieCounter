@@ -12,7 +12,8 @@ class FoodAmountDialog extends StatefulWidget {
 }
 
 class _FoodAmountDialogState extends State<FoodAmountDialog> {
-  Map amount = {"amount": 1, "unit": "grams"};
+  int amountGrams = 0;
+  bool servingSize = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +33,19 @@ class _FoodAmountDialogState extends State<FoodAmountDialog> {
             ),
             width: double.infinity,
             label: Text("Unit"),
-            initialSelection: "grams",
+            initialSelection: "g",
             dropdownMenuEntries: [
-              DropdownMenuEntry(value: "grams", label: "Grams (g)"),
+              DropdownMenuEntry(value: "g", label: "Grams (g)"),
               DropdownMenuEntry(
                 value: "servingSize",
-                label: "Serving Size (${widget.product.servingSize ?? "100g"})",
+                label: widget.product.servingSize ?? "",
               ),
             ],
             onSelected: (value) {
-              amount["unit"] = value;
+              servingSize = true;
+              if (value == "servingSize") {
+                amountGrams = amountGrams * widget.product.servingQuantity!.toInt();
+              }
             },
           ),
 
@@ -55,7 +59,11 @@ class _FoodAmountDialogState extends State<FoodAmountDialog> {
               ),
             ),
             onChanged: (value) {
-              amount["amount"] = int.parse(value);
+              if (servingSize) {
+                amountGrams = int.parse(value) * widget.product.servingQuantity!.toInt();
+              } else {
+                amountGrams = int.parse(value);
+              }
             },
           ),
         ],
@@ -67,7 +75,7 @@ class _FoodAmountDialogState extends State<FoodAmountDialog> {
         ),
 
         TextButton(
-          onPressed: () => Navigator.of(context).pop(amount),
+          onPressed: () => Navigator.of(context).pop(amountGrams),
           child: Text("Ok"),
         ),
       ],

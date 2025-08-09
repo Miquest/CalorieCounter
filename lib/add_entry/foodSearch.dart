@@ -1,12 +1,12 @@
+import 'package:caloriecounter/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'foodDataLoader.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 
+import 'searchLoader.dart';
 
 class FoodSearch extends StatefulWidget {
-
-  final FoodDataLoader loader;
-  const FoodSearch({super.key, required this.loader});
+  const FoodSearch({super.key});
 
   @override
   State<FoodSearch> createState() => _FoodSearchState();
@@ -17,6 +17,7 @@ class _FoodSearchState extends State<FoodSearch>
   final ScrollController _scrollController = ScrollController();
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
+  late FoodSearchLoader searchLoader;
 
   @override
   void initState() {
@@ -39,6 +40,8 @@ class _FoodSearchState extends State<FoodSearch>
       }
     });
 
+    searchLoader = FoodSearchLoader(context: context);
+
     super.initState();
   }
 
@@ -48,28 +51,29 @@ class _FoodSearchState extends State<FoodSearch>
       body: Padding(
         padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 30),
 
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Search",
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontFamily: GoogleFonts.permanentMarker().fontFamily,
                     fontSize: 50,
                   ),
                 ),
 
-                ListenableBuilder(
-                  listenable: widget.loader,
-                  builder: (BuildContext context, Widget? child) {
-                    return Badge(
-                      label: Text("${widget.loader.selectedFoods.length}"),
-                      child: Icon(Icons.table_bar, size: 35),
-                    );
-                  },
+                Badge(
+                  label: Text("1"),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.list_alt, size: 30),
+                  ),
                 ),
               ],
             ),
@@ -84,19 +88,71 @@ class _FoodSearchState extends State<FoodSearch>
               trailing: [
                 IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_2)),
               ],
-              hintText: "Search product...",
+              hintText: S.of(context).searchProduct,
               onSubmitted: (String? searchString) {
-                widget.loader.searchByString(searchString ?? "");
+                searchLoader.searchByString(searchString ?? "");
+              },
+            ),
+
+            SizedBox(height: 10),
+
+            ListenableBuilder(
+              listenable: searchLoader,
+              builder: (BuildContext context, Widget? child) {
+                return SizedBox(
+                  height: 40,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      FilterChip(
+                        label: Text("Name"),
+                        selected: searchLoader.field == ProductField.NAME,
+                        onSelected: (value) {
+                          searchLoader.field = ProductField.NAME;
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      FilterChip(
+                        label: Text("Brand"),
+                        selected: searchLoader.field == ProductField.BRANDS,
+                        onSelected: (value) {
+                          searchLoader.field = ProductField.BRANDS;
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      FilterChip(
+                        label: Text("Type"),
+                        selected:
+                            searchLoader.field == ProductField.PRODUCT_TYPE,
+                        onSelected: (value) {
+                          searchLoader.field = ProductField.PRODUCT_TYPE;
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
 
             ListenableBuilder(
-              listenable: widget.loader,
+              listenable: searchLoader,
               builder: (BuildContext context, Widget? child) {
+                if (searchLoader.loading) {
+                  return Flexible(
+                    child: Center(
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  );
+                }
+
                 return Flexible(
                   child: ListView(
                     controller: _scrollController,
-                    children: widget.loader.results,
+                    children: searchLoader.searchResults,
                   ),
                 );
               },

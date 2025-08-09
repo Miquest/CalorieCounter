@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 
 class ProgressCirclePainter extends CustomPainter {
   final double progress;
@@ -50,22 +51,39 @@ class ProgressCirclePainter extends CustomPainter {
 }
 
 class ProgressArc extends StatelessWidget {
-
-  final Icon icon;
   final double progress;
   final double size;
-  const ProgressArc({super.key, required this.icon, required this.progress, required this.size});
+  final String value;
+  final String unit;
+  final double fontSize;
 
+  const ProgressArc({
+    super.key,
+    required this.value,
+    required this.unit,
+    required this.fontSize,
+    required this.progress,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     final Color arcColor = Colors.deepPurple;
 
     return Stack(
       alignment: Alignment.center,
       children: [
-        Center(child: icon),
+        Center(
+          child: Column(
+            children: [
+              Text(value, style: TextStyle(fontSize: fontSize)),
+              Text(
+                unit,
+                style: TextStyle(color: Colors.grey, fontSize: (fontSize / 30) * 20),
+              ),
+            ],
+          ),
+        ),
 
         CustomPaint(
           size: Size(size, size),

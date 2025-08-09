@@ -22,16 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "addBreakfastSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Add an entry for the breakfast"),
         "addCustomSubtitle": MessageLookupByLibrary.simpleMessage(
             "Add an entry to a customized meal"),
-        "addDinnerSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Add an entry for your dinner"),
-        "addLunchSubtitle":
-            MessageLookupByLibrary.simpleMessage("Add an entry for lunch"),
-        "addSnackSubtitle":
-            MessageLookupByLibrary.simpleMessage("Add a snack to your logbook"),
         "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "chooseAmount": MessageLookupByLibrary.simpleMessage("Choose amount"),
@@ -48,6 +40,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "licenses": MessageLookupByLibrary.simpleMessage("Licenses"),
         "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
         "resetApp": MessageLookupByLibrary.simpleMessage("Reset app"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "searchProduct":
+            MessageLookupByLibrary.simpleMessage("Search product..."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
         "veganMode": MessageLookupByLibrary.simpleMessage("Vegan mode"),

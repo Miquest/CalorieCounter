@@ -1,41 +1,34 @@
+import 'package:caloriecounter/components/foodDialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
-import 'foodDialogs.dart';
+class FoodSearchLoader with ChangeNotifier {
+  final BuildContext context;
 
-class FoodDataLoader with ChangeNotifier {
-  BuildContext context;
+  FoodSearchLoader({required this.context});
 
-  FoodDataLoader({required this.context});
+  List<Widget> searchResults = [];
+  bool loading = false;
+  ProductField _field = ProductField.NAME;
 
-  List<Widget> results = [];
+  ProductField get field => _field;
 
-  List<Map<String, dynamic>> selectedFoods = [];
-  List amounts = [];
-
-  void deleteSelectedFood(Map<String, dynamic> item) {
-    int index = selectedFoods.indexOf(item);
-    amounts.removeAt(index);
-    selectedFoods.removeAt(index);
+  set field(ProductField newField) {
+    _field = newField;
     notifyListeners();
-  }
-
-  Future<void> loadFromStorage() async {
-    notifyListeners();
-  }
-
-  Future<void> saveToStorage() async {
-    /// Implement saving function
   }
 
   Future<void> searchByString(String searchString) async {
-    this.results = [];
+    searchResults = [];
+    loading = true;
+    notifyListeners();
 
     OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Calorie Counter');
 
     ProductSearchQueryConfiguration configuration =
         ProductSearchQueryConfiguration(
+          fields: [ProductField.ALL],
           parametersList: [
             SearchTerms(terms: [searchString]),
           ],
@@ -54,12 +47,13 @@ class FoodDataLoader with ChangeNotifier {
       addListTile(product);
     }
 
+    loading = false;
     notifyListeners();
   }
 
   void addListTile(Product product) {
     try {
-      results.add(
+      searchResults.add(
         ListTile(
           title: Text(product.productName ?? ""),
           subtitle: Text(
@@ -67,15 +61,15 @@ class FoodDataLoader with ChangeNotifier {
           ),
           trailing: Icon(Icons.add),
           onTap: () async {
-            Map? amount = await showDialog(
+            int? amountGrams = await showDialog(
               context: context,
               builder: (context) => FoodAmountDialog(product: product),
             );
 
-            if (amount != null) {
-              amounts.add(amount);
-              selectedFoods.add(product.toJson());
-              notifyListeners();
+            if (amountGrams != null && context.mounted) {
+              Map<String, dynamic> foodMap = product.toJson();
+              foodMap["amountGrams"] = amountGrams;
+              Navigator.of(context).pop(foodMap);
             }
           },
         ),

@@ -17,10 +17,8 @@
   "custom": "Custom",
   "snacks": "Snacks",
   "cancel": "Cancel",
-  "addBreakfastSubtitle": "Add an entry for the breakfast",
-  "addLunchSubtitle": "Add an entry for lunch",
-  "addDinnerSubtitle": "Add an entry for your dinner",
-  "addSnackSubtitle": "Add a snack to your logbook",
   "addCustomSubtitle": "Add an entry to a customized meal",
-  "chooseAmount": "Choose amount"
+  "chooseAmount": "Choose amount",
+  "searchProduct": "Search product...",
+  "save": "Save"
 }

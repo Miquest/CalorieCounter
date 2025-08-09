@@ -1,25 +1,51 @@
-import 'package:flutter/material.dart';
-import 'package:caloriecounter/components/foodCard.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:caloriecounter/components/foodCard/foodCard.dart';
+import 'package:caloriecounter/components/foodDataLoader.dart';
 import 'package:caloriecounter/generated/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MealSection extends StatefulWidget {
+  final String sectionTag;
+  final DateTime date;
 
-  final String sectionTitle;
-
-  const MealSection({super.key, required this.sectionTitle});
+  const MealSection({
+    super.key,
+    required this.sectionTag,
+    required this.date
+  });
 
   @override
   State<MealSection> createState() => _MealSectionState();
 }
 
 class _MealSectionState extends State<MealSection> {
+  late Map stringMappings;
+  late FoodDataLoader loader;
+
+  @override
+  void initState() {
+    loader = FoodDataLoader(context: context, date: widget.date);
+    loader.tag = widget.sectionTag;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return    SliverList(
+
+    loader.loadFromStorage();
+
+    stringMappings = {
+      "breakfast": S.of(context).breakfast,
+      "lunch": S.of(context).lunch,
+      "dinner": S.of(context).dinner,
+      "snacks": S.of(context).snacks,
+    };
+
+    return SliverList(
       delegate: SliverChildListDelegate([
         Text(
-          widget.sectionTitle,
+          stringMappings[widget.sectionTag] ?? "Custom",
           style: TextStyle(
             color: Colors.white.withAlpha(980),
             fontSize: 40,
@@ -29,28 +55,28 @@ class _MealSectionState extends State<MealSection> {
 
         Text(
           "09:00",
-          style: TextStyle(
-            color: Colors.grey,
-            fontStyle: FontStyle.italic,
-          ),
+          style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
 
         SizedBox(height: 20),
 
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              FoodCard(name: "Bread", amount: 120),
-              SizedBox(width: 10),
-              FoodCard(name: "Cheese", amount: 20),
-              SizedBox(width: 10),
-              FoodCard(name: "Apple", amount: 130),
-              SizedBox(width: 10),
-              FoodCard(name: "Pineapple", amount: 20),
-            ],
+          height: 220,
+          child: ListenableBuilder(
+            listenable: loader,
+            builder: (BuildContext context, Widget? child) {
+              if (loader.selectedFoods.isNotEmpty) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, index) {
+                    return FoodCard(foodMap: loader.selectedFoods[index]);
+                  },
+                );
+              }
+
+              return Icon(Icons.dnd_forwardslash, size: 60, color: Colors.grey);
+            },
           ),
         ),
 

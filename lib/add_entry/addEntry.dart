@@ -23,7 +23,7 @@ class _AddEntryState extends State<AddEntry> {
             SizedBox(height: 30),
 
             Text(
-              "Add entry",
+              "Logbook",
               style: TextStyle(
                 fontSize: 50,
                 fontFamily: GoogleFonts.permanentMarker().fontFamily,
@@ -35,7 +35,6 @@ class _AddEntryState extends State<AddEntry> {
             ListTile(
               leading: Icon(Icons.sunny),
               title: Text(S.of(context).breakfast),
-              subtitle: Text(S.of(context).addBreakfastSubtitle),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -47,7 +46,6 @@ class _AddEntryState extends State<AddEntry> {
             ListTile(
               leading: Icon(Icons.fastfood),
               title: Text(S.of(context).lunch),
-              subtitle: Text(S.of(context).addLunchSubtitle),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -59,7 +57,6 @@ class _AddEntryState extends State<AddEntry> {
             ListTile(
               leading: Icon(Icons.nightlight),
               title: Text(S.of(context).dinner),
-              subtitle: Text(S.of(context).addDinnerSubtitle),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -71,7 +68,6 @@ class _AddEntryState extends State<AddEntry> {
             ListTile(
               leading: Icon(Icons.emoji_food_beverage),
               title: Text(S.of(context).snacks),
-              subtitle: Text(S.of(context).addSnackSubtitle),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(

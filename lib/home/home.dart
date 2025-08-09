@@ -1,6 +1,6 @@
+import 'package:caloriecounter/components/foodDataLoader.dart';
 import 'package:caloriecounter/components/mealSection.dart';
 import 'package:caloriecounter/components/progress_arc.dart';
-import 'package:caloriecounter/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,8 +11,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late FoodDataLoader loader;
+
+  List<String> sectionTags = ["breakfast", "lunch", "dinner", "snacks"];
+  List<Widget> sections = [];
+
+  @override
+  void initState() {
+    loader = FoodDataLoader(context: context, date: DateTime.now());
+
+    for (String section in sectionTags) {
+      sections.add(MealSection(sectionTag: section, date: DateTime.now()));
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    loader.loadFromStorage();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
@@ -22,44 +40,82 @@ class _HomeState extends State<Home> {
               delegate: SliverChildListDelegate([
                 SizedBox(height: 70),
 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ProgressArc(
-                      icon: Icon(Icons.fastfood, size: 40),
-                      progress: 0.8,
-                      size: 150,
-                    ),
-
-                    SizedBox(
-                      height: 40,
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                ListenableBuilder(
+                  listenable: loader,
+                  builder: (context, child) {
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ProgressArc(
-                          icon: Icon(Icons.directions_walk, size: 30),
-                          progress: 0.6,
-                          size: 70,
+                        Column(
+                          spacing: 20,
+                          children: [
+                            ProgressArc(
+                              progress:
+                                  loader.nutrimentStats["calories"]! / 2000,
+                              size: 150,
+                              fontSize: 30,
+                              value: (loader.nutrimentStats["calories"] ?? 0).toString(),
+                              unit: "kcal",
+                            ),
+                          ],
                         ),
 
-                        ProgressArc(
-                          icon: Icon(Icons.face, size: 30),
-                          progress: 0.7,
-                          size: 70,
-                        ),
+                        SizedBox(height: 40),
 
-                        ProgressArc(
-                          icon: Icon(Icons.breakfast_dining, size: 30),
-                          progress: 0.95,
-                          size: 70,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              spacing: 15,
+                              children: [
+                                ProgressArc(
+                                  value: "15",
+                                  unit: "g",
+                                  fontSize: 20,
+                                  progress: 0.7,
+                                  size: 70,
+                                ),
+
+                                Text("Protein"),
+                              ],
+                            ),
+
+                            Column(
+                              spacing: 15,
+                              children: [
+                                ProgressArc(
+                                  value: "30",
+                                  unit: "g",
+                                  fontSize: 20,
+                                  progress: 0.4,
+                                  size: 70,
+                                ),
+
+                                Text("Carbs"),
+                              ],
+                            ),
+
+                            Column(
+                              spacing: 15,
+                              children: [
+                                ProgressArc(
+                                  value: "20",
+                                  unit: "g",
+                                  fontSize: 20,
+                                  progress: 0.2,
+                                  size: 70,
+                                ),
+
+                                Text("Fat"),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ],
+                    );
+                  },
                 ),
 
                 SizedBox(height: 30),
@@ -70,9 +126,7 @@ class _HomeState extends State<Home> {
               ]),
             ),
 
-            MealSection(sectionTitle: S.of(context).breakfast),
-            MealSection(sectionTitle: S.of(context).lunch),
-            MealSection(sectionTitle: S.of(context).dinner),
+            ...sections,
           ],
         ),
       ),

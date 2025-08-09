@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
-import 'foodDataLoader.dart';
+import '../components/foodDataLoader.dart';
 
 class TableContentPage extends StatefulWidget {
   final String mealName;
@@ -18,14 +18,12 @@ class TableContentPage extends StatefulWidget {
 class _TableContentPageState extends State<TableContentPage> {
   late FoodDataLoader loader;
 
-  List<Widget> _buildMealView(List<Map<String, dynamic>> items) {
+  List<Widget> _buildMealView() {
     List<Widget> tiles = [];
 
-    for (Map<String, dynamic> item in items) {
+    for (Map<String, dynamic> item in loader.selectedFoods) {
+      int amountGrams = item.remove("amountGrams");
       Product product = Product.fromJson(item);
-
-      int index = loader.selectedFoods.indexOf(item);
-      Map amountConf = loader.amounts[index];
 
       Widget avatar = CircleAvatar(child: Icon(Icons.fastfood));
 
@@ -38,9 +36,7 @@ class _TableContentPageState extends State<TableContentPage> {
       tiles.add(
         ListTile(
           title: Text(product.productName!),
-          subtitle: Text(
-            "Amount: ${amountConf["amount"]} ${amountConf["unit"]} ",
-          ),
+          subtitle: Text("${amountGrams}g"),
           leading: avatar,
           trailing: IconButton(
             onPressed: () {
@@ -56,14 +52,11 @@ class _TableContentPageState extends State<TableContentPage> {
   }
 
   @override
-  void initState() {
-    loader = FoodDataLoader(context: context);
-    loader.loadFromStorage();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    loader = FoodDataLoader(context: context, date: DateTime.now());
+    loader.loadFromStorage();
+    loader.tag = widget.mealName;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(15, 20, 15, 40),
@@ -86,7 +79,7 @@ class _TableContentPageState extends State<TableContentPage> {
               builder: (BuildContext context, Widget? child) {
                 return Flexible(
                   child: ListView(
-                    children: _buildMealView(loader.selectedFoods),
+                    children: _buildMealView(),
                   ),
                 );
               },
@@ -104,20 +97,28 @@ class _TableContentPageState extends State<TableContentPage> {
 
                 IconButton(
                   iconSize: 30,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => FoodSearch(loader: loader),
-                      ),
-                    );
+                  onPressed: () async {
+                    Map<String, dynamic>? selectedFood =
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => FoodSearch(),
+                          ),
+                        );
+
+                    if (selectedFood != null) {
+                      loader.addFood(selectedFood);
+                    }
                   },
                   icon: Icon(Icons.add),
                 ),
 
-                FilledButton(onPressed: () {
-                  loader.saveToStorage();
-                  Navigator.of(context).pop();
-                }, child: Text("Save")),
+                FilledButton(
+                  onPressed: () {
+                    loader.saveToStorage();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(S.of(context).save),
+                ),
               ],
             ),
           ],
