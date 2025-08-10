@@ -24,15 +24,15 @@ class _MealSectionState extends State<MealSection> {
 
   @override
   void initState() {
-    loader = FoodDataLoader(context: context, date: widget.date);
-    loader.tag = widget.sectionTag;
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
+    loader = FoodDataLoader(context: context, date: widget.date);
+    loader.tag = widget.sectionTag;
+    loader.selectedFoods = [];
     loader.loadFromStorage();
 
     stringMappings = {
@@ -53,10 +53,13 @@ class _MealSectionState extends State<MealSection> {
           ),
         ),
 
+        /*
         Text(
           "09:00",
           style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
+        */
+
 
         SizedBox(height: 20),
 
@@ -66,9 +69,11 @@ class _MealSectionState extends State<MealSection> {
           child: ListenableBuilder(
             listenable: loader,
             builder: (BuildContext context, Widget? child) {
+
               if (loader.selectedFoods.isNotEmpty) {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
+                  itemCount: loader.selectedFoods.length,
                   itemBuilder: (BuildContext context, index) {
                     return FoodCard(foodMap: loader.selectedFoods[index]);
                   },

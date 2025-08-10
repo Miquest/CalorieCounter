@@ -12,20 +12,32 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final Box box = Hive.box("settings");
-  late bool encryptData;
   late bool vegetarianMode;
   late bool veganMode;
 
+  late int calorieIntake;
+  late int fatIntake;
+  late int proteinIntake;
+  late int carbIntake;
+
   void _loadSettings() {
-    encryptData = box.get("encryptData", defaultValue: false);
     vegetarianMode = box.get("vegetarianMode", defaultValue: false);
     veganMode = box.get("veganMode", defaultValue: false);
+
+    calorieIntake = box.get("calorieIntake", defaultValue: 2000);
+    fatIntake = box.get("fatIntake", defaultValue: 70);
+    proteinIntake = box.get("proteinIntake", defaultValue: 50);
+    carbIntake = box.get("carbIntake", defaultValue: 300);
   }
 
   void _saveSettings() {
-    box.put("encryptData", encryptData);
     box.put("vegetarianMode", vegetarianMode);
     box.put("veganMode", veganMode);
+
+    box.put("calorieIntake", calorieIntake);
+    box.put("fatIntake", fatIntake);
+    box.put("proteinIntake", proteinIntake);
+    box.put("carbIntake", carbIntake);
   }
 
   @override
@@ -51,24 +63,135 @@ class _SettingsState extends State<Settings> {
 
             SizedBox(height: 20),
 
-            SwitchListTile(
-              value: encryptData,
-              title: Text(S.of(context).encryptData),
-              subtitle: Text(S.of(context).encryptDataSubtitle),
-              onChanged: (value) {
-                setState(() {
-                  encryptData = value;
-                });
-                _saveSettings();
-              },
+            Text(
+              S.of(context).intakeGoals,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
             ),
+
+            SizedBox(height: 15),
+
+            ListTile(
+              title: Text(S.of(context).calorieIntakeKcal),
+              trailing: SizedBox(
+                width: 100,
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(
+                    text: calorieIntake.toString(),
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    calorieIntake = int.parse(value);
+                    _saveSettings();
+                  },
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            ListTile(
+              title: Text(S.of(context).fatIntakeG),
+              trailing: SizedBox(
+                width: 100,
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(text: fatIntake.toString()),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    fatIntake = int.parse(value);
+                    _saveSettings();
+                  },
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            ListTile(
+              title: Text(S.of(context).carbIntakeG),
+              trailing: SizedBox(
+                width: 100,
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(
+                    text: carbIntake.toString(),
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    carbIntake = int.parse(value);
+                    _saveSettings();
+                  },
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            ListTile(
+              title: Text(S.of(context).proteinIntakeG),
+              trailing: SizedBox(
+                width: 100,
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(
+                    text: proteinIntake.toString(),
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    proteinIntake = int.parse(value);
+                    _saveSettings();
+                  },
+                ),
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            Text(
+              S.of(context).preferences,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+
+            SizedBox(height: 15),
 
             SwitchListTile(
               value: vegetarianMode,
               title: Text(S.of(context).vegetarianMode),
               activeColor: Colors.green,
               thumbIcon: WidgetStatePropertyAll(
-                Icon(Icons.energy_savings_leaf_outlined, color:  vegetarianMode ? Colors.black : Colors.white,),
+                Icon(
+                  Icons.energy_savings_leaf_outlined,
+                  color: vegetarianMode ? Colors.black : Colors.white,
+                ),
               ),
               onChanged: (value) {
                 setState(() {
@@ -96,6 +219,7 @@ class _SettingsState extends State<Settings> {
               },
             ),
 
+            /*
             ListTile(
               title: Text(S.of(context).exportData),
               subtitle: Text(
@@ -103,6 +227,8 @@ class _SettingsState extends State<Settings> {
               ),
               trailing: Icon(Icons.keyboard_arrow_right),
             ),
+            */
+            Divider(),
 
             ListTile(
               title: Text(S.of(context).licenses),
@@ -115,7 +241,11 @@ class _SettingsState extends State<Settings> {
             SizedBox(height: 20),
 
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                await Hive.deleteBoxFromDisk("settings");
+                await Hive.deleteBoxFromDisk("logbook");
+                setState(() {});
+              },
               child: Text(
                 S.of(context).resetApp,
                 style: TextStyle(color: Colors.redAccent),
@@ -131,6 +261,10 @@ class _SettingsState extends State<Settings> {
                 SizedBox(width: 5),
                 Text("Mika Schreiber"),
               ],
+            ),
+
+            SizedBox(
+              height: 30,
             ),
           ],
         ),

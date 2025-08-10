@@ -7,7 +7,7 @@ Map<String, dynamic> deepCastMap(Map<dynamic, dynamic> map) {
       return MapEntry(
         key.toString(),
         value.map((e) {
-          if (e is Map) return deepCastMap(e as Map);
+          if (e is Map) return deepCastMap(e);
           return e;
         }).toList(),
       );

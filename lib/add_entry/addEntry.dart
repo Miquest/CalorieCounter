@@ -1,5 +1,4 @@
-import 'package:caloriecounter/add_entry/foodSearch.dart';
-import 'package:caloriecounter/add_entry/tableContent.dart';
+import 'package:caloriecounter/add_entry/mealContent.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:caloriecounter/generated/l10n.dart';
@@ -38,7 +37,7 @@ class _AddEntryState extends State<AddEntry> {
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => TableContentPage(mealName: S.of(context).breakfast))
+                  MaterialPageRoute(builder: (context) => MealContentPage(mealName: S.of(context).breakfast))
                 );
               },
             ),
@@ -49,7 +48,7 @@ class _AddEntryState extends State<AddEntry> {
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => TableContentPage(mealName: S.of(context).lunch))
+                    MaterialPageRoute(builder: (context) => MealContentPage(mealName: S.of(context).lunch))
                 );
               },
             ),
@@ -60,7 +59,7 @@ class _AddEntryState extends State<AddEntry> {
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => TableContentPage(mealName: S.of(context).dinner))
+                    MaterialPageRoute(builder: (context) => MealContentPage(mealName: S.of(context).dinner))
                 );
               },
             ),
@@ -71,18 +70,9 @@ class _AddEntryState extends State<AddEntry> {
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => TableContentPage(mealName: S.of(context).snacks))
+                    MaterialPageRoute(builder: (context) => MealContentPage(mealName: S.of(context).snacks))
                 );
               },
-            ),
-
-            Divider(thickness: 2),
-
-            ListTile(
-              leading: Icon(Icons.question_mark),
-              title: Text(S.of(context).custom),
-              subtitle: Text(S.of(context).addCustomSubtitle),
-              trailing: Icon(Icons.keyboard_arrow_right),
             ),
 
             SizedBox(height: 20),

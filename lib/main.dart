@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calorie Counter',
       themeMode: ThemeMode.dark,
-      supportedLocales: [Locale("en")],
+      supportedLocales: [Locale("en"), Locale("de")],
       localizationsDelegates: [
         S.delegate
       ],
