@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:caloriecounter/generated/l10n.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,9 +25,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calorie Counter',
       themeMode: ThemeMode.dark,
-      supportedLocales: [Locale("en")],
+      supportedLocales: [Locale("en"), Locale("de")],
       localizationsDelegates: [
-        S.delegate
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

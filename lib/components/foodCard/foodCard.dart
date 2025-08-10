@@ -24,7 +24,7 @@ class _FoodCardState extends State<FoodCard> {
 
   @override
   void initState() {
-    amount = widget.foodMap.remove("amountGrams");
+    amount = widget.foodMap["amountGrams"];
     product = Product.fromJson(widget.foodMap);
     prodHashCode = product.hashCode.toString();
 

@@ -1,7 +1,8 @@
 import 'package:caloriecounter/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zxing/flutter_zxing.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'searchLoader.dart';
 
@@ -45,6 +46,30 @@ class _FoodSearchState extends State<FoodSearch>
     super.initState();
   }
 
+  Future<void> _scanBarcode() async {
+    await Permission.camera.request();
+    await zx.startCameraProcessing();
+
+    final String barcode = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: 250,
+            width: 250,
+            child: ReaderWidget(
+              onScan: (Code code) {
+                Navigator.of(context).pop(code.text ?? "");
+              },
+            ),
+          ),
+        );
+      },
+    );
+
+    searchLoader.searchByBarcode(barcode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,27 +80,13 @@ class _FoodSearchState extends State<FoodSearch>
           children: [
             SizedBox(height: 30),
 
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Search",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.permanentMarker().fontFamily,
-                    fontSize: 50,
-                  ),
-                ),
-
-                Badge(
-                  label: Text("1"),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.list_alt, size: 30),
-                  ),
-                ),
-              ],
+            Text(
+              S.of(context).search,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: GoogleFonts.permanentMarker().fontFamily,
+                fontSize: 50,
+              ),
             ),
 
             SizedBox(height: 20),
@@ -86,7 +97,10 @@ class _FoodSearchState extends State<FoodSearch>
               ),
               leading: Icon(Icons.search),
               trailing: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_2)),
+                IconButton(
+                  onPressed: _scanBarcode,
+                  icon: Icon(Icons.qr_code_2),
+                ),
               ],
               hintText: S.of(context).searchProduct,
               onSubmitted: (String? searchString) {
@@ -96,6 +110,7 @@ class _FoodSearchState extends State<FoodSearch>
 
             SizedBox(height: 10),
 
+            /*
             ListenableBuilder(
               listenable: searchLoader,
               builder: (BuildContext context, Widget? child) {
@@ -105,7 +120,7 @@ class _FoodSearchState extends State<FoodSearch>
                     scrollDirection: Axis.horizontal,
                     children: [
                       FilterChip(
-                        label: Text("Name"),
+                        label: Text(S.of(context).name),
                         selected: searchLoader.field == ProductField.NAME,
                         onSelected: (value) {
                           searchLoader.field = ProductField.NAME;
@@ -113,7 +128,7 @@ class _FoodSearchState extends State<FoodSearch>
                       ),
                       SizedBox(width: 10),
                       FilterChip(
-                        label: Text("Brand"),
+                        label: Text(S.of(context).brand),
                         selected: searchLoader.field == ProductField.BRANDS,
                         onSelected: (value) {
                           searchLoader.field = ProductField.BRANDS;
@@ -121,7 +136,7 @@ class _FoodSearchState extends State<FoodSearch>
                       ),
                       SizedBox(width: 10),
                       FilterChip(
-                        label: Text("Type"),
+                        label: Text(S.of(context).type),
                         selected:
                             searchLoader.field == ProductField.PRODUCT_TYPE,
                         onSelected: (value) {
@@ -133,7 +148,7 @@ class _FoodSearchState extends State<FoodSearch>
                 );
               },
             ),
-
+            */
             ListenableBuilder(
               listenable: searchLoader,
               builder: (BuildContext context, Widget? child) {

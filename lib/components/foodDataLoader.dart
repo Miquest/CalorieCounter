@@ -6,25 +6,23 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 
 class FoodDataLoader with ChangeNotifier {
   final BuildContext context;
-  final DateTime date;
+  DateTime date;
 
   FoodDataLoader({required this.context, required this.date});
 
-  late Map tagMappings;
   late Map stringMappings;
 
   // Pre define the tag, can be changed later in code
-  String tag = "breakfast";
+  String? tag;
   List<Map<String, dynamic>> selectedFoods = [];
-  List<Widget> searchResults = [];
   Map<String, double> nutrimentStats = {"calories": 0, "fat": 0, "carbs": 0};
 
   void _calculateNutrimentStats() {
     // Reset nutriment stats
-    nutrimentStats.map((key, value) => MapEntry(key, 0));
+    nutrimentStats = nutrimentStats.map((key, value) => MapEntry(key, 0));
 
     for (Map<String, dynamic> item in selectedFoods) {
-      int amount = item.remove("amountGrams");
+      int amount = item["amountGrams"];
       Product product = Product.fromJson(item);
 
       nutrimentStats["calories"] =
@@ -55,17 +53,13 @@ class FoodDataLoader with ChangeNotifier {
                   0);
     }
 
+    nutrimentStats = nutrimentStats.map(
+      (key, value) => MapEntry(key, value.roundToDouble()),
+    );
     notifyListeners();
   }
 
   void _initMappings() {
-    tagMappings = {
-      S.of(context).breakfast: "breakfast",
-      S.of(context).lunch: "lunch",
-      S.of(context).dinner: "dinner",
-      S.of(context).snacks: "snacks",
-    };
-
     stringMappings = {
       "breakfast": S.of(context).breakfast,
       "lunch": S.of(context).lunch,
@@ -94,6 +88,8 @@ class FoodDataLoader with ChangeNotifier {
   }
 
   Future<void> loadFromStorage() async {
+    selectedFoods = [];
+
     _initMappings();
     if (!Hive.isBoxOpen("logbook")) {
       await Hive.openLazyBox("logbook");
@@ -103,10 +99,20 @@ class FoodDataLoader with ChangeNotifier {
     String boxKey =
         "${date.year}-${date.month.toString().padLeft(2)}-${date.day.toString().padLeft(2)}";
 
+
     if (box.containsKey(boxKey)) {
       Map data = await box.get(boxKey);
-      if (data.containsKey(tagMappings[tag])) {
-        List mealData = (await box.get(boxKey))[tagMappings[tag]];
+
+      if (tag == null) {
+        Map mealData = await box.get(boxKey);
+
+        for (List items in mealData.values) {
+          for (Map item in items) {
+            selectedFoods.add(deepCastMap(item));
+          }
+        }
+      } else if (data.containsKey(tag)) {
+        List mealData = (await box.get(boxKey))[tag];
 
         for (Map item in mealData) {
           selectedFoods.add(deepCastMap(item));
@@ -133,10 +139,10 @@ class FoodDataLoader with ChangeNotifier {
 
     if (box.containsKey(boxKey)) {
       Map data = await box.get(boxKey);
-      data[tagMappings[tag]] = selectedFoods;
+      data[tag] = selectedFoods;
       await box.put(boxKey, data);
     } else {
-      Map data = {tagMappings[tag]: selectedFoods};
+      Map data = {tag: selectedFoods};
       await box.put(boxKey, data);
     }
   }

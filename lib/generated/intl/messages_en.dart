@@ -20,35 +20,67 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(calories) => "Calories (100g): ${calories}";
+
+  static String m1(unit) => "Energy (${unit} / 100g)";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "addCustomSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Add an entry to a customized meal"),
-        "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "chooseAmount": MessageLookupByLibrary.simpleMessage("Choose amount"),
-        "custom": MessageLookupByLibrary.simpleMessage("Custom"),
-        "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
-        "encryptData": MessageLookupByLibrary.simpleMessage("Encrypt data"),
-        "encryptDataSubtitle": MessageLookupByLibrary.simpleMessage(
-            "You can encrypt your data with a local key"),
-        "exportData": MessageLookupByLibrary.simpleMessage("Export data"),
-        "exportDataSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Export you data as a backup or for another device"),
-        "history": MessageLookupByLibrary.simpleMessage("History"),
-        "home": MessageLookupByLibrary.simpleMessage("Home"),
-        "licenses": MessageLookupByLibrary.simpleMessage("Licenses"),
-        "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
-        "resetApp": MessageLookupByLibrary.simpleMessage("Reset app"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "searchProduct":
-            MessageLookupByLibrary.simpleMessage("Search product..."),
-        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
-        "veganMode": MessageLookupByLibrary.simpleMessage("Vegan mode"),
-        "vegetarianMode":
-            MessageLookupByLibrary.simpleMessage("Vegetarian mode"),
-        "welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
-            "Welcome to your calorie diary!")
-      };
+    "amount": MessageLookupByLibrary.simpleMessage("Amount"),
+    "brand": MessageLookupByLibrary.simpleMessage("Brand"),
+    "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
+    "calorieIntakeKcal": MessageLookupByLibrary.simpleMessage(
+      "Calorie intake (kcal)",
+    ),
+    "calorieSubtitle": m0,
+    "calories": MessageLookupByLibrary.simpleMessage("Calories"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "carbIntakeG": MessageLookupByLibrary.simpleMessage("Carb intake (g)"),
+    "carbs": MessageLookupByLibrary.simpleMessage("Carbs"),
+    "chooseAmount": MessageLookupByLibrary.simpleMessage("Choose amount"),
+    "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
+    "encryptData": MessageLookupByLibrary.simpleMessage("Encrypt data"),
+    "encryptDataSubtitle": MessageLookupByLibrary.simpleMessage(
+      "You can encrypt your data with a local key",
+    ),
+    "energy100g": m1,
+    "exportData": MessageLookupByLibrary.simpleMessage("Export data"),
+    "exportDataSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Export you data as a backup or for another device",
+    ),
+    "fat": MessageLookupByLibrary.simpleMessage("Fat"),
+    "fatIntakeG": MessageLookupByLibrary.simpleMessage("Fat intake (g)"),
+    "gramsText": MessageLookupByLibrary.simpleMessage("Grams (g)"),
+    "history": MessageLookupByLibrary.simpleMessage("History"),
+    "home": MessageLookupByLibrary.simpleMessage("Home"),
+    "ingredients": MessageLookupByLibrary.simpleMessage("Ingredients"),
+    "intakeGoals": MessageLookupByLibrary.simpleMessage("Intake goals"),
+    "licenses": MessageLookupByLibrary.simpleMessage("Licenses"),
+    "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
+    "manufacturer": MessageLookupByLibrary.simpleMessage("Manufacturer"),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "nutriscore": MessageLookupByLibrary.simpleMessage("Nutriscore"),
+    "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
+    "protein": MessageLookupByLibrary.simpleMessage("Protein"),
+    "proteinIntakeG": MessageLookupByLibrary.simpleMessage(
+      "Protein intake (g)",
+    ),
+    "resetApp": MessageLookupByLibrary.simpleMessage("Reset app"),
+    "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "searchProduct": MessageLookupByLibrary.simpleMessage("Search product..."),
+    "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
+    "stores": MessageLookupByLibrary.simpleMessage("Stores"),
+    "type": MessageLookupByLibrary.simpleMessage("Type"),
+    "unit": MessageLookupByLibrary.simpleMessage("Unit"),
+    "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "vegan": MessageLookupByLibrary.simpleMessage("Vegan"),
+    "veganMode": MessageLookupByLibrary.simpleMessage("Vegan mode"),
+    "vegetarian": MessageLookupByLibrary.simpleMessage("Vegetarian"),
+    "vegetarianMode": MessageLookupByLibrary.simpleMessage("Vegetarian mode"),
+    "welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Welcome to your calorie diary!",
+    ),
+  };
 }

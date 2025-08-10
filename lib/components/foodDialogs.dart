@@ -12,7 +12,7 @@ class FoodAmountDialog extends StatefulWidget {
 }
 
 class _FoodAmountDialogState extends State<FoodAmountDialog> {
-  int amountGrams = 0;
+  int amountGrams = 1;
   bool servingSize = false;
 
   @override
@@ -32,10 +32,10 @@ class _FoodAmountDialogState extends State<FoodAmountDialog> {
               ),
             ),
             width: double.infinity,
-            label: Text("Unit"),
+            label: Text(S.of(context).unit),
             initialSelection: "g",
             dropdownMenuEntries: [
-              DropdownMenuEntry(value: "g", label: "Grams (g)"),
+              DropdownMenuEntry(value: "g", label: S.of(context).gramsText),
               DropdownMenuEntry(
                 value: "servingSize",
                 label: widget.product.servingSize ?? "",
@@ -50,10 +50,10 @@ class _FoodAmountDialogState extends State<FoodAmountDialog> {
           ),
 
           TextField(
-            controller: TextEditingController(text: "1"),
+            controller: TextEditingController(text: amountGrams.toString()),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-              label: Text("Amount"),
+              label: Text(S.of(context).amount),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

@@ -6,23 +6,23 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 
 import '../components/foodDataLoader.dart';
 
-class TableContentPage extends StatefulWidget {
+class MealContentPage extends StatefulWidget {
   final String mealName;
 
-  const TableContentPage({super.key, required this.mealName});
+  const MealContentPage({super.key, required this.mealName});
 
   @override
-  State<TableContentPage> createState() => _TableContentPageState();
+  State<MealContentPage> createState() => _MealContentPageState();
 }
 
-class _TableContentPageState extends State<TableContentPage> {
+class _MealContentPageState extends State<MealContentPage> {
   late FoodDataLoader loader;
 
   List<Widget> _buildMealView() {
     List<Widget> tiles = [];
 
     for (Map<String, dynamic> item in loader.selectedFoods) {
-      int amountGrams = item.remove("amountGrams");
+      int amountGrams = item["amountGrams"];
       Product product = Product.fromJson(item);
 
       Widget avatar = CircleAvatar(child: Icon(Icons.fastfood));
@@ -67,7 +67,7 @@ class _TableContentPageState extends State<TableContentPage> {
             SizedBox(height: 30),
 
             Text(
-              widget.mealName,
+              loader.stringMappings[widget.mealName],
               style: TextStyle(
                 fontFamily: GoogleFonts.permanentMarker().fontFamily,
                 fontSize: 50,
