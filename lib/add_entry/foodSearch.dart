@@ -1,3 +1,4 @@
+import 'package:caloriecounter/components/foodDataLoader.dart';
 import 'package:caloriecounter/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zxing/flutter_zxing.dart';
@@ -7,7 +8,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'searchLoader.dart';
 
 class FoodSearch extends StatefulWidget {
-  const FoodSearch({super.key});
+  final FoodDataLoader foodLoader;
+
+  const FoodSearch({super.key, required this.foodLoader});
 
   @override
   State<FoodSearch> createState() => _FoodSearchState();
@@ -41,7 +44,10 @@ class _FoodSearchState extends State<FoodSearch>
       }
     });
 
-    searchLoader = FoodSearchLoader(context: context);
+    searchLoader = FoodSearchLoader(
+      context: context,
+      foodLoader: widget.foodLoader,
+    );
 
     super.initState();
   }

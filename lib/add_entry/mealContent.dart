@@ -77,11 +77,7 @@ class _MealContentPageState extends State<MealContentPage> {
             ListenableBuilder(
               listenable: loader,
               builder: (BuildContext context, Widget? child) {
-                return Flexible(
-                  child: ListView(
-                    children: _buildMealView(),
-                  ),
-                );
+                return Flexible(child: ListView(children: _buildMealView()));
               },
             ),
 
@@ -97,17 +93,12 @@ class _MealContentPageState extends State<MealContentPage> {
 
                 IconButton(
                   iconSize: 30,
-                  onPressed: () async {
-                    Map<String, dynamic>? selectedFood =
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => FoodSearch(),
-                          ),
-                        );
-
-                    if (selectedFood != null) {
-                      loader.addFood(selectedFood);
-                    }
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FoodSearch(foodLoader: loader),
+                      ),
+                    );
                   },
                   icon: Icon(Icons.add),
                 ),

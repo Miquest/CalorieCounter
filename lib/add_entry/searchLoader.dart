@@ -1,3 +1,4 @@
+import 'package:caloriecounter/components/foodDataLoader.dart';
 import 'package:caloriecounter/components/foodDialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,8 +8,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class FoodSearchLoader with ChangeNotifier {
   final BuildContext context;
+  final FoodDataLoader foodLoader;
 
-  FoodSearchLoader({required this.context});
+  FoodSearchLoader({required this.context, required this.foodLoader});
 
   List<Widget> searchResults = [];
   bool loading = false;
@@ -27,8 +29,6 @@ class FoodSearchLoader with ChangeNotifier {
     if (!Hive.isBoxOpen("settings")) {
       await Hive.openBox("settings");
     }
-
-    final settingsBox = Hive.box("settings");
 
     searchResults = [];
     loading = true;
@@ -70,6 +70,7 @@ class FoodSearchLoader with ChangeNotifier {
           parametersList: [
             SearchTerms(terms: [searchString]),
           ],
+          language: OpenFoodFactsLanguage.fromOffTag(Localizations.localeOf(context).countryCode),
           version: ProductQueryVersion.v3,
         );
 
@@ -103,7 +104,7 @@ class FoodSearchLoader with ChangeNotifier {
     try {
       searchResults.add(
         ListTile(
-          title: Text(product.productName ?? ""),
+          title: Text(product.productName!),
           subtitle: Text(
             S.of(context).calorieSubtitle(product.nutriments!.getValue(Nutrient.energyKCal, PerSize.oneHundredGrams).toString()),
           ),
@@ -117,7 +118,7 @@ class FoodSearchLoader with ChangeNotifier {
             if (amountGrams != null && context.mounted) {
               Map<String, dynamic> foodMap = product.toJson();
               foodMap["amountGrams"] = amountGrams;
-              Navigator.of(context).pop(foodMap);
+              foodLoader.addFood(foodMap);
             }
           },
         ),
